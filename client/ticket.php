@@ -1,3 +1,13 @@
+<?php
+  require $_SERVER['DOCUMENT_ROOT'] . '/config/autoloader.php';
+  include "scripts/phpqrcode/qrlib.php";
+
+  session_start();
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -24,13 +34,14 @@
       </header>
       
       <div class="ticket__info-wrapper">
-        <p class="ticket__info">На фильм: <span class="ticket__details ticket__title">Звёздные войны XXIII: Атака клонированных клонов</span></p>
-        <p class="ticket__info">Места: <span class="ticket__details ticket__chairs">6, 7</span></p>
-        <p class="ticket__info">В зале: <span class="ticket__details ticket__hall">1</span></p>
-        <p class="ticket__info">Начало сеанса: <span class="ticket__details ticket__start">18:30</span></p>
-
-        <img class="ticket__info-qr" src="i/qr-code.png">
-
+        <p class="ticket__info">На фильм: <span class="ticket__details ticket__title"><?php echo $_SESSION['Reservation']['filmName']; ?></span></p>
+        <p class="ticket__info">Ряд/Место: <span class="ticket__details ticket__chairs"><?php echo $_SESSION['Reservation']['places']; ?></span></p>
+        <p class="ticket__info">Зал: <span class="ticket__details ticket__hall"><?php echo $_SESSION['Reservation']['hallName']; ?></span></p>
+        <p class="ticket__info">Дата: <span class="ticket__details ticket__hall"><?php echo $_SESSION['Reservation']['date']; ?></span></p>
+        <p class="ticket__info">Начало сеанса: <span class="ticket__details ticket__start"><?php echo $_SESSION['Reservation']['seanceStart']; ?></span></p>
+        <?php QRcode::png($_SESSION['QRtext'], "i/QR_code.png", "L", 4, 4); ?>
+        <img class="ticket__info-qr" src="i/QR_code.png">
+        
         <p class="ticket__hint">Покажите QR-код нашему контроллеру для подтверждения бронирования.</p>
         <p class="ticket__hint">Приятного просмотра!</p>
       </div>
