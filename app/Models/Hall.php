@@ -5,18 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * МОДЕЛЬ таблицы "Залы"
+ */
 class Hall extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'row',
-        'seats',
-        'price',
-        'vip_price',
-        'is_active'
-    ];
+    protected $table = 'halls';
+    
+    public function hallSeatsPlan()
+    {
+        return $this->hasMany(HallSeatsPlan::class); // отношение "Один-ко-Многим" (Зал -> План_мест_в_зале)
+    }
 
-    protected $table = 'hall';
+    public function hallBilling()
+    {
+        return $this->hasOne(HallBilling::class); // отношение "Один-ко-Одному" (Зал -> Цены_на_места_в_зале)
+    }
+
+    public function hallSessionsPlan()
+    {
+        return $this->hasMany(HallSessionsPlan::class);    // отношение "Один-ко-Многим" (Зал -> План_сеансов_на_день)
+    }
+
 }
